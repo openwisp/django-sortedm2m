@@ -48,6 +48,7 @@ class SortedCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
                 label_for = ''
 
             cb = forms.CheckboxInput(final_attrs, check_test=lambda value: value in str_values)
+            cb, option_label, option_value = self.modify_checkbox(cb, option_label, option_value)
             option_value = force_str(option_value)
             rendered_cb = cb.render(name, option_value)
             option_label = conditional_escape(force_str(option_label))
@@ -81,6 +82,13 @@ class SortedCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
         if isinstance(value, (str,)):
             return [v for v in value.split(',') if v]
         return value
+
+    def modify_checkbox(self, cb, option_label, option_value):
+        # if option_value.instance.required:
+        #     cb.attrs['disabled'] = 'disabled'
+        #     cb.attrs['checked'] = 'checked'
+        #     option_label = f'{option_label} (required)'
+        return cb, option_label, option_value
 
 
 class SortedMultipleChoiceField(forms.ModelMultipleChoiceField):

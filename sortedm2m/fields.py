@@ -174,6 +174,7 @@ class SortedManyToManyField(_ManyToManyField):
     Accept a class ``base_class`` attribute which specifies the base class of
     the intermediate model. It allows to customize the intermediate model.
     """
+    multiple_choice_field = SortedMultipleChoiceField
 
     def __init__(self, to, sorted=True, base_class=None, **kwargs):  # pylint: disable=redefined-builtin
         self.sorted = sorted
@@ -266,7 +267,7 @@ class SortedManyToManyField(_ManyToManyField):
     def formfield(self, **kwargs):  # pylint: disable=arguments-differ
         defaults = {}
         if self.sorted:
-            defaults['form_class'] = SortedMultipleChoiceField
+            defaults['form_class'] = self.multiple_choice_field
         defaults.update(kwargs)
         return super().formfield(**defaults)
 
